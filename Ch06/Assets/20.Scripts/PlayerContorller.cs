@@ -5,9 +5,10 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rigid2D;
     float jumpForce = 300.0f;
-    float walkForce = 30;
+    float walkForce = 15;
     float maxWalkSpeed = 1.0f;
     public Sprite[] walkSprites;
+    public Sprite jumpSprite;
     float time = 0;
     int idx = 0;
     SpriteRenderer spriteRenderer;
@@ -34,12 +35,26 @@ public class PlayerController : MonoBehaviour
         }
 
         // ¾Ö´Ï¸ÞÀÌ¼Ç
-        this.time += Time.deltaTime;
-        if (this.time > 0.1f)
+        if (this.rigid2D.linearVelocityY != 0)
         {
-            this.time = 0;
-            this.spriteRenderer.sprite = this.walkSprites[this.idx];
-            this.idx = 1 - this.idx;
+            this.spriteRenderer.sprite = this.jumpSprite;
+        }
+        else
+        {
+            this.time += Time.deltaTime;
+            if (this.time > 0.1f)
+            {
+                this.time = 0;
+                this.spriteRenderer.sprite = this.walkSprites[this.idx];
+                this.idx = 1 - this.idx;
+            }
         }
     }
+
+    // °ñ µµÂø
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log("°ñ");
+    }
 }
+
